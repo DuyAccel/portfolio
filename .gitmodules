@@ -1,0 +1,6 @@
+[submodule "web/themes/tailbliss"]
+	path = web/themes/tailbliss
+	url = https://github.com/nusserstudios/tailbliss.git
+[submodule "devel/themes/hugo-profile"]
+	path = devel/themes/hugo-profile
+	url = https://github.com/gurusabarish/hugo-profile.git

@@ -1,0 +1,164 @@
+baseURL: https://example.org/
+languageCode: en-us
+title: Duy Nguyen
+theme: hugo-profile
+
+menus:
+  
+outputs:
+  home:
+    - "HTML"
+    - "RSS"
+    - "JSON"
+  page:
+    - "HTML"
+    - "RSS"
+
+Menus:
+  main:
+    - identifier: blog
+      name: Blog
+      title: Blog posts
+      url: /blogs
+      weight: 1
+
+params:
+  title: "Duy"
+
+  animate: true
+
+  font:
+    fontSize: 1rem # default: 1rem
+    fontWeight: 350 # default: 400
+    lineHeight: 1.5 # default: 1.5
+    textAlign: left # default: left
+
+  navbar:
+    align: ms-auto # Left: ms-auto | center: mx-auto | right: me-auto | Default: ms-auto
+    # brandLogo: "/logo.png" # Logo for the brand | default is the favicon variable
+    # showBrandLogo: false # Show brand logo in nav bar | default is true
+    brandName: "Duy's Portfolio" # Brand name for the brand | default is the title variable
+    disableSearch: false
+    # searchPlaceholder: "Search"
+    stickyNavBar:
+      enable : true
+      showOnScrollUp : true
+    enableSeparator: false
+    menus:
+      disableAbout: false
+      disableExperience: false
+      disableEducation: false
+      disableProjects: false
+      disableAchievements: false
+      disableContact: false
+  
+  hero:
+    enable: true
+    intro: "Welcome to my website, I am"
+    title: "Nguyen Chau Hieu Duy."
+    content: |- 
+      Isn't it lovely, all alone? Heart made of glass , my mind of stone. Tear me to pieces, skin to bone. Hello, welcome home...
+
+      -Lovely, by Billie Eilish and Khalid-
+    image: /images/hero.jpg
+    
+    button:
+      enable: true
+      name: "CV (not available yet)"
+      url: "#"
+      download: true
+      newPage: false
+
+    socialLinks:
+      fontAwesomeIcons:
+        - icon: fab fa-github
+          url: https://github.com/DuyAccel
+
+        - icon: fab fa-facebook
+          url: https://www.facebook.com/Duy.Accel.02
+
+
+  about:
+    enable: true
+    title: "About me"
+    image: /images/me-1.jpg
+    content: |-
+      I am a senior student at Saigon University, who have completed all coursework for Bachelor of engineering in Information Technology, specializing Computer Science. I'm currently waiting my official graduation (expected in this September).  
+
+      I am excited to leverage my expertise and passion for technology to make a meaningful impact in my future career.
+    skills:
+      enable: true
+      title: "Here are some technologies that I am confident in:"
+      items:
+        - Python
+        - Linux
+        - Git
+        - Docker 
+        - Jenkins
+
+  experience:
+    enable: true
+    items:
+      - job: "Internship DataOps"
+        company: "Cty TNHH 2M SOLUTIONS"
+        date: "Jan 2024 - Aug 2024"
+        content: |
+          I was amazed by how a real data product is created. During this time, I have gained a lot of knowledge about Docker and Jenkins. I also started using some common services of AWS to host and testing my project.
+          
+          - Deploy first website on a server.
+          - Config Jenkins nodes to auto pull code from github, build image, push image to dockerhub.
+
+
+  education:
+    enable: true
+    index: false
+    items:
+      - title: "Bachelor of Engineering"
+        subtitle: "Computer Science"
+
+        school:
+          name: "Saigon University"
+          url: "https://www.sgu.edu.vn/"
+        date: "Oct 2020 - Sep 2024 (expected)"
+        GPA: "3.49 out of 4.0"
+        content: |
+          An Engineer's program in Information Technology - specialization: Computer Science.
+
+
+  achievements:
+    enable: true
+    items:
+      - title: "TOEIC score: 850"
+        content: "Reading documents and papers in English is not that hard! (Deeply understand it is hard)"
+        image: /images/toeic.jpg
+      - title: "Green summer campaign 2020"
+        content: "Being commended as an excellent volunteer at University level."
+        image: /images/mhx-1.png
+
+  projects:
+    enable: true
+    items:
+      - title: Multi-class fakenews detection model
+        content: A machine learning model using fuzzy c-means base algorithm for feature extraction combine with multiple XGBoost binary models.
+        image: /images/projects/fn-xgb.png
+        featured:
+          name: Demo 
+          link: "https://duyaccel-fzxgboost.hf.space"
+        badges:
+          - "XGBoost"
+          - "Fuzzy c-means"
+
+        links:
+          - icon: fab fa-github
+            url: "https://github.com/DuyAccel/FzXGB-fakenews.git"
+
+      - title: Portfolio website
+        content: A website being hosted on ASW EC2 instance. I use Nginx as reverse proxy and Let's Encrypt for SSL certificate. Every module is running inside docker containers.
+        image: /images/projects/web.png
+
+  contact:
+    enable: true
+    # title: "Custom Name"
+    content: You can contact me via my email.
+    btnName: Mail me
+    btnLink: mailto:nguyenchauhieuduy@outlook.com
