@@ -52,7 +52,7 @@ jobs:
           echo "$SSH_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${SV_USER}@${SERVER} '
             docker rm -f portfolio
-            docker image rm $(docker image ls | grep personal-web | awk '{print $3}')
+            docker image rm $(docker image ls | grep personal-web | awk '{print $3}') || true
             docker run --name portfolio -p 80:80 duyaccel/personal-web:main
           '
 
