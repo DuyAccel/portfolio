@@ -1,4 +1,4 @@
-baseURL: https://example.org/
+baseURL: https://website.duy.io.vn/
 languageCode: en-us
 title: Duy Nguyen
 theme: hugo-profile
@@ -24,6 +24,8 @@ Menus:
 
 params:
   title: "Duy"
+
+  favicon: /favicon.ico
 
   animate: true
 
