@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html>
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta http-equiv="Accept-CH" content="DPR, Viewport-Width, Width">
+<link rel="icon" href=/favicon.ico type="image/gif">
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Alata&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Alata&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      media="print" onload="this.media='all'" />
+<noscript>
+  <link
+          href="https://fonts.googleapis.com/css2?family=Alata&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+          rel="stylesheet">
+</noscript>
+
+
+<link rel="stylesheet" href="/css/font.css" media="all">
+
+
+
+  
+
+
+<meta property="og:url" content="http://localhost:1313/blogs/dev-container/">
+  <meta property="og:site_name" content="Duy Nguyen">
+  <meta property="og:title" content="Custom devcontainer">
+  <meta property="og:description" content="Make your dev environment more interesting.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blogs">
+    <meta property="article:published_time" content="2024-08-31T08:43:34+00:00">
+    <meta property="article:modified_time" content="2024-08-31T08:43:34+00:00">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Custom devcontainer">
+  <meta name="twitter:description" content="Make your dev environment more interesting.">
+
+
+<link rel="stylesheet" href="/bootstrap-5/css/bootstrap.min.css" media="all"><link rel="stylesheet" href="/css/header.css" media="all">
+<link rel="stylesheet" href="/css/footer.css" media="all">
+
+
+<link rel="stylesheet" href="/css/theme.css" media="all">
+
+<style>
+    :root {
+        --text-color: #343a40;
+        --text-secondary-color: #6c757d;
+        --text-link-color: #007bff;
+        --background-color: #eaedf0;
+        --secondary-background-color: #64ffda1a;
+        --primary-color: #007bff;
+        --secondary-color: #f8f9fa;
+
+         
+        --text-color-dark: #e4e6eb;
+        --text-secondary-color-dark: #b0b3b8;
+        --text-link-color-dark: #ffffff;
+        --background-color-dark: #18191a;
+        --secondary-background-color-dark: #212529;
+        --primary-color-dark: #ffffff;
+        --secondary-color-dark: #212529;
+    }
+    body {
+        font-size: 1rem;
+        font-weight: 350;
+        line-height: 1.5;
+        text-align: left;
+    }
+
+    html {
+        background-color: var(--background-color) !important;
+    }
+
+    body::-webkit-scrollbar {
+        height: 0px;
+        width: 8px;
+        background-color: var(--background-color);
+    }
+
+    ::-webkit-scrollbar-track {
+        border-radius: 1rem;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 1rem;
+        background: #b0b0b0;
+        outline: 1px solid var(--background-color);
+    }
+
+    #search-content::-webkit-scrollbar {
+        width: .5em;
+        height: .1em;
+        background-color: var(--background-color);
+    }
+</style>
+
+
+
+<meta name="description" content="Make your dev environment more interesting.">
+<link rel="stylesheet" href="/css/single.css">
+
+
+<script defer src="/fontawesome-6/all-6.4.2.js"></script>
+
+
+  
+  
+
+  <title>
+Custom devcontainer | Duy Nguyen
+
+  </title>
+</head>
+
+<body class="light">
+  
+  
+<script>
+    let localStorageValue = localStorage.getItem("pref-theme");
+    let mediaQuery = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    switch (localStorageValue) {
+        case "dark":
+            document.body.classList.add('dark');
+            break;
+        case "light":
+            document.body.classList.remove('dark');
+            break;
+        default:
+            if (mediaQuery) {
+                document.body.classList.add('dark');
+            }
+            break;
+    }
+</script>
+
+
+
+
+<script>
+    var prevScrollPos = window.pageYOffset;
+    window.addEventListener("scroll", function showHeaderOnScroll() {
+        let profileHeaderElem = document.getElementById("profileHeader");
+        let currentScrollPos = window.pageYOffset;
+        let resetHeaderStyle = false;
+        let showNavBarOnScrollUp =  true ;
+        let showNavBar = showNavBarOnScrollUp ? prevScrollPos > currentScrollPos : currentScrollPos > 0;
+        if (showNavBar) {
+            profileHeaderElem.classList.add("showHeaderOnTop");
+        } else {
+            resetHeaderStyle = true;
+        }
+        if(currentScrollPos === 0) {
+            resetHeaderStyle = true;
+        }
+        if(resetHeaderStyle) {
+            profileHeaderElem.classList.remove("showHeaderOnTop");
+        }
+        prevScrollPos = currentScrollPos;
+    });
+</script>
+
+
+
+<header id="profileHeader">
+    <nav class="pt-3 navbar navbar-expand-lg animate">
+        <div class="container-fluid mx-xs-2 mx-sm-5 mx-md-5 mx-lg-5">
+            
+            <a class="navbar-brand primary-font text-wrap" href="/">
+                
+                <img src="/favicon.ico" width="30" height="30"
+                    class="d-inline-block align-top">
+                Duy&#39;s Portfolio
+                
+            </a>
+
+            
+                <div>
+                    <input id="search" autocomplete="off" class="form-control mr-sm-2 d-none d-md-block" placeholder='Ctrl &#43; k to Search...'
+                        aria-label="Search" oninput="searchOnChange(event)">
+                </div>
+            
+
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <svg aria-hidden="true" height="24" viewBox="0 0 16 16" version="1.1" width="24" data-view-component="true">
+                    <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z"></path>
+                </svg>
+            </button>
+
+            
+            <div class="collapse navbar-collapse text-wrap primary-font" id="navbarContent">
+                <ul class="navbar-nav ms-auto text-center">
+                    
+                        <li class="nav-item navbar-text d-block d-md-none">
+                            <div class="nav-link">
+                                <input id="search" autocomplete="off" class="form-control mr-sm-2" placeholder='Ctrl &#43; k to Search...' aria-label="Search" oninput="searchOnChange(event)">
+                            </div>
+                        </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#about" aria-label="about">
+                            About me
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#experience"
+                            aria-label="experience">
+                            Experience
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#education"
+                            aria-label="education">
+                            Education
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#projects"
+                            aria-label="projects">
+                            Projects
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#achievements"
+                            aria-label="achievements">
+                            Achievements
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#contact"
+                            aria-label="contact">
+                            Contact
+                        </a>
+                    </li>
+                    
+
+                    
+
+                    
+                    
+                    
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/blogs" title="Blog posts">
+                            
+                            Blog
+                        </a>
+                    </li>
+                    
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        
+                        <div class="text-center">
+                            <button id="theme-toggle">
+                                <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                                </svg>
+                                <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="5"></circle>
+                                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </li>
+                    
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+</header>
+<div id="content">
+<section id="single">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-12 col-md-12 col-lg-9">
+        <div class="pr-lg-4">
+          <div class="title mb-5">
+            <h1 class="text-center mb-4">Custom devcontainer</h1>
+            <div class="text-center">
+              
+                Duy Nguyen
+                <small>|</small>
+              
+              Aug 31, 2024
+
+              
+              <span id="readingTime">
+                min read
+              </span>
+              
+            </div>
+          </div>
+          
+          <div class="featured-image">
+            <img class="img-fluid mx-auto d-block" src="/blogs/dev-container/container.png" alt="Custom devcontainer">
+          </div>
+          
+          <article class="page-content  p-2">
+          <h1 id="not-only-neovim-you-can-bring-all-your-config-into-your-most-isolated-dev-environment">Not only neovim, you can bring all your config into your most isolated dev environment!</h1>
+<p>If you&rsquo;re a Linux user who has put some effort to <code>rice</code> within your operating system, you probably don’t want to interact with a boring terminal screen while working, right? In this article, I’ll show you how to create a development environment inside a Docker container that preserves your config files, particularly for <em>Neovim</em>. The best part is you can reuse them anywhere, as long as the system has Docker Engine installed.</p>
+<p>The idea came from a comment on <a href="https://www.reddit.com/r/neovim/comments/169sls2/comment/jz3wj2j/?utm_source=share&amp;utm_medium=web3x&amp;utm_name=web3xcss&amp;utm_term=1&amp;utm_content=share_button">Reddit</a>.</p>
+<h2 id="issues">Issues</h2>
+<h3 id="why-use-a-devcontainer">Why use a devcontainer?</h3>
+<p>Isolating and ensuring a clean development environment is a fundamental requirement for every developer when starting a project. There are many different methods to support this, such as:</p>
+<ul>
+<li>Using <code>virtual environments</code> for programming languages like Python, Node.js, etc.</li>
+<li>Using <code>conda environments</code> provided by Anaconda.</li>
+<li>Using <code>virtual machines</code>.</li>
+</ul>
+<p>Each method has its own pros and cons: <code>virtual environments</code> and <code>conda environments</code> can&rsquo;t install packages outside the scope of the package manager. <code>Virtual machines</code> allow more freedom in package installation but are more storage-intensive. These issues can be addressed by using <code>containers</code> as a development environment.</p>
+<p>A <code>container</code>, specifically referring to Docker containers in this article, is a tool that allows for the virtualization of operating systems running on the computer’s hardware through a container engine. Since <code>containers</code> do not virtualize hardware like RAM and hard drives, they save significantly more space and memory compared to <code>virtual machines</code>. For instance, the Docker image for the Alpine Linux operating system is only 5MB.</p>
+<h3 id="why-is-configuration-necessary">Why is configuration necessary?</h3>
+<p>You&rsquo;ve put effort into configuring your code editor to your liking with all the plugins you need, but when you start working with a container, your Neovim inside the container is bare. It’s hard to accept, right? You could reinstall, but what if you need to work on multiple projects? As a developer, you should find ways to automate repetitive tasks.</p>
+<p><img src="/blogs/dev-container/img-0.png" alt="neovim-empty-vs-config"></p>
+<h3 id="why-not-use-vscodes-devcontainer">Why not use VSCode’s devcontainer?</h3>
+<p>For those using VSCode, you might be familiar with the dev container extension developed by Microsoft. However, I am a hardcore Neovim user, and using VSCode does not sit well with me. If you&rsquo;re like me, let’s get started.</p>
+<h2 id="1-preparation">1. Preparation</h2>
+<p>Ensure that you have Docker installed and know how to use it at a basic level. Identify the config files that need to be included in the container.</p>
+<h3 id="11-storing-system-configurations">1.1. Storing System Configurations</h3>
+<p>GNU Stow is an essential tool for managing system configurations. If you&rsquo;re not familiar with it, here’s a brief explanation. Suppose your HOME directory is structured as follows:</p>
+<pre tabindex="0"><code>~/
+├──dotfiles/
+|   ├── .zshrc
+|   └── .config/
+|       └── nvim/
+|           └── init.lua
+└── example.txt
+</code></pre><p>Now, if you use the <code>stow .</code> command in the <code>~/dotfiles/</code> directory:</p>
+<pre tabindex="0"><code>cd ~/dotfiles
+stow .
+</code></pre><p>The directories inside <code>dotfiles</code> will be mapped to <code>~/</code> as follows:</p>
+<pre tabindex="0"><code>~/
+├──dotfiles/
+|   ├── .zshrc
+|   └── .config/
+|       └── nvim/
+|           └── init.lua
+├── .zshrc -&gt; ~/dotfiles/.zshrc
+├── .config/
+|   └── nvim/
+|       └── init.lua -&gt; ~/dotfiles/.config/nvim/init.lua
+└── example.txt
+</code></pre><p>So, make sure the config files you want to use are consolidated into a folder like <code>dotfiles</code>.</p>
+<h3 id="12-backing-up-configuration-files-to-github">1.2. Backing Up Configuration Files to Github</h3>
+<p>Github is a great tool for this purpose. However, make sure you don’t accidentally upload any sensitive information online.</p>
+<pre tabindex="0"><code>cd ~/dotfiles
+git init
+git add .
+git commit -m &#39;init dotfiles&#39;
+
+# Add your remote repository
+git remote add origin https://github.com/your-github/repository.git
+git push origin main
+</code></pre><h2 id="2-configuring-the-dev-container">2. Configuring the Dev Container</h2>
+<h3 id="21-building-the-dockerfile">2.1. Building the Dockerfile</h3>
+<p>You can use an image corresponding to the distro you are familiar with to ease your setup. Since <code>I use Arch, btw</code>, I previously used an image for this distro as a devcontainer, but its size was quite large. Therefore, in this article, we will use <code>Alpine</code>, a very lightweight Docker image that is well-known among Docker users. Below is my <strong>Dockerfile</strong>. You can modify the packages to install, the username, and replace the path when cloning the Github repository.</p>
+<pre tabindex="0"><code>FROM alpine:3.20.2
+
+RUN apk update &amp;&amp; \
+    apk add --no-cache git stow npm eza neovim fzf ripgrep \
+            zsh zsh-autosuggestions zsh-syntax-highlighting \
+            curl build-base &amp;&amp; \ 
+    curl -s https://ohmyposh.dev/install.sh | sh -s -- -d /usr/local/bin
+
+RUN adduser -G wheel -s /bin/zsh -u 1000 -D duy
+
+USER duy
+
+RUN git clone https://github.com/DuyAccel/dotfiles.git ~/dotfiles &amp;&amp; \
+    cd ~/dotfiles &amp;&amp; \
+    stow .
+</code></pre><p>Let’s break down what’s written here:</p>
+<p>First, I declare the base image as <em>Alpine:3.20.2</em>, which is the latest version at the time of writing this article.</p>
+<pre tabindex="0"><code>FROM alpine:3.20.2
+</code></pre><p>Next, I update the Alpine package manager (<code>apk</code>) to ensure the packages are downloaded at their latest versions.</p>
+<pre tabindex="0"><code>RUN apk update &amp;&amp; \
+</code></pre><p>We use the <code>--no-cache</code> flag to ensure <code>apk</code> does not cache the packages (helping to reduce the image size). The packages I install can be divided into three groups:</p>
+<ul>
+<li>Essential for Neovim:
+<ul>
+<li><code>neovim</code>, our favorite text editor.</li>
+<li><code>git</code> and <code>stow</code> are used to fetch and apply the dotfiles stored on GitHub.</li>
+<li><code>npm</code> is the package manager used to install some Neovim plugins.</li>
+<li><code>eza</code>, <code>fzf</code>, and <code>ripgrep</code> are command-line tools necessary for Neovim plugins.</li>
+</ul>
+</li>
+<li>Required for the terminal shell:
+<ul>
+<li><code>zsh</code>, <code>zsh-autosuggestions</code>, and <code>zsh-syntax-highlighting</code> are the Z shell and plugins for my favorite Unix shell.</li>
+</ul>
+</li>
+<li>Additional supporting tools:
+<ul>
+<li><code>curl</code> is used to install oh-my-posh, a tool to enhance the terminal experience.</li>
+<li><code>build-base</code> is a basic development toolset to support running and building certain files during development.</li>
+</ul>
+</li>
+</ul>
+<pre tabindex="0"><code>    apk add --no-cache git stow npm eza neovim fzf ripgrep \
+            zsh zsh-autosuggestions zsh-syntax-highlighting \
+            curl build-base &amp;&amp; \ 
+</code></pre><p>The following command installs <strong>oh-my-posh</strong>.</p>
+<pre tabindex="0"><code>    curl -s https://ohmyposh.dev/install.sh | sh -s -- -d /usr/local/bin
+</code></pre><p>I also create a new user for use instead of <code>root</code>. Using a user with the same UID as the user on the host machine helps avoid permission conflicts when binding mounts between the container and the host.</p>
+<pre tabindex="0"><code>RUN adduser -G wheel -s /bin/zsh -u 1000 -D duy
+
+USER duy
+</code></pre><p>After switching to the <code>duy</code> user, I clone the repository containing my config files and apply those configurations to the <code>duy</code> user using the <code>stow</code> command.</p>
+<pre tabindex="0"><code>RUN git clone https://github.com/DuyAccel/dotfiles.git ~/dotfiles &amp;&amp; \
+    cd ~/dotfiles &amp;&amp; \
+    stow .
+</code></pre><h3 id="22-build-image--run-container">2.2. Build Image + Run Container</h3>
+<p>Navigate to the folder containing your Dockerfile and build + run the image. Here’s an example of how I did it:</p>
+<pre tabindex="0"><code>docker build -t duyaccel/devcontainer .
+
+docker run -it --name devcontainer duyaccel/devcontainer zsh
+</code></pre><p>You will see that your file paths and shell look similar to the image below.
+<img src="/blogs/dev-container/container-shell.png" alt="container first look"></p>
+<p>Use the <code>nvim</code> command to open Neovim and start the configuration process.</p>
+<pre tabindex="0"><code>nvim
+</code></pre><p>Wait until LazyVim plugins have been fully installed, then run the command <code>:MasonInstallAll</code> to install plugins managed by Mason. Some plugins like <em>ruff</em> and <em>pydebug</em> might not be installable because Python is not yet installed in this container, but it should not cause any issues.
+<img src="/blogs/dev-container/neovim.png" alt="init neovim">
+<img src="/blogs/dev-container/neovim-mason.png" alt="mason neovim"></p>
+<p>You can install additional packages with root permissions to suit your project needs.
+<img src="/blogs/dev-container/devcontainer-and-host.png" alt="devcontainer vs host"></p>
+<h2 id="3-storage">3. Storage</h2>
+<p>You can push the image you just created to Docker Hub and pull it down when needed without having to build the entire image from the Dockerfile again.</p>
+<pre tabindex="0"><code>docker push duyaccel/devcontainer
+</code></pre><p>You can visit Docker Hub, find, and download my image with the tag name: <code>duyaccel/devcontainer</code>. The image size is only about 135 MB.</p>
+<pre tabindex="0"><code>docker pull duyaccel/devcontainer:latest
+</code></pre><h2 id="summary">Summary</h2>
+<p>To keep programming from becoming dry and monotonous, it’s beneficial to infuse a bit of your own touch into it to make your work environment more comfortable and enjoyable.</p>
+
+          </article>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-3">
+        <div id="stickySideBar" class="sticky-sidebar">
+          
+          <aside class="toc">
+              <h5>
+                Table Of Contents
+              </h5>
+              <div class="toc-content">
+                <nav id="TableOfContents">
+  <ul>
+    <li><a href="#issues">Issues</a>
+      <ul>
+        <li><a href="#why-use-a-devcontainer">Why use a devcontainer?</a></li>
+        <li><a href="#why-is-configuration-necessary">Why is configuration necessary?</a></li>
+        <li><a href="#why-not-use-vscodes-devcontainer">Why not use VSCode’s devcontainer?</a></li>
+      </ul>
+    </li>
+    <li><a href="#1-preparation">1. Preparation</a>
+      <ul>
+        <li><a href="#11-storing-system-configurations">1.1. Storing System Configurations</a></li>
+        <li><a href="#12-backing-up-configuration-files-to-github">1.2. Backing Up Configuration Files to Github</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-configuring-the-dev-container">2. Configuring the Dev Container</a>
+      <ul>
+        <li><a href="#21-building-the-dockerfile">2.1. Building the Dockerfile</a></li>
+        <li><a href="#22-build-image--run-container">2.2. Build Image + Run Container</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-storage">3. Storage</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+              </div>
+          </aside>
+          
+
+          
+
+          
+          <aside class="social">
+            <h5>Social</h5>
+            <div class="social-content">
+              <ul class="list-inline">
+                <li class="list-inline-item text-center">
+                  <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fblogs%2fdev-container%2f">
+                    <i class="fab fa-linkedin"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item text-center">
+                  <a target="_blank" href="https://twitter.com/share?text=Custom%20devcontainer&url=http%3a%2f%2flocalhost%3a1313%2fblogs%2fdev-container%2f">
+                    <i class="fab fa-twitter"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item text-center">
+                  <a target="_blank" href="https://api.whatsapp.com/send?text=Custom%20devcontainer: http%3a%2f%2flocalhost%3a1313%2fblogs%2fdev-container%2f">
+                    <i class="fab fa-whatsapp"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item text-center">
+                  <a target="_blank" href='mailto:?subject=Custom%20devcontainer&amp;body=Check%20out%20this%20site http%3a%2f%2flocalhost%3a1313%2fblogs%2fdev-container%2f'>
+                    <i class="fa fa-envelope"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </aside>
+          
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-9 p-4">
+        
+      </div>
+    </div>
+  </div>
+  <button class="p-2 px-3" onclick="topFunction()" id="topScroll">
+    <i class="fas fa-angle-up"></i>
+  </button>
+</section>
+
+
+<div class="progress">
+  <div id="scroll-progress-bar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<Script src="/js/scrollProgressBar.js"></script>
+
+
+<script>
+  var topScroll = document.getElementById("topScroll");
+  window.onscroll = function() {scrollFunction()};
+
+  function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      topScroll.style.display = "block";
+    } else {
+      topScroll.style.display = "none";
+    }
+  }
+
+  function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+
+  
+  let stickySideBarElem = document.getElementById("stickySideBar");
+  let stickyNavBar =  true ;
+  if(stickyNavBar) {
+    let headerElem = document.getElementById("profileHeader");
+    let headerHeight = headerElem.offsetHeight + 15;
+    stickySideBarElem.style.top = headerHeight + "px";
+  } else {
+    stickySideBarElem.style.top = "50px";
+  }
+</script>
+
+
+<script src="/js/readingTime.js"></script>
+
+
+
+  </div><footer>
+    
+ 
+
+<div class="text-center pt-2">
+    
+
+    
+
+    
+
+    
+
+    
+</div><div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-4 text-center">
+            
+                <div class="pb-2">
+                    <a href="http://localhost:1313/" title="Duy Nguyen">
+                        <img alt="Footer logo" src="/favicon.ico"
+                            height="40px" width="40px">
+                    </a>
+                </div>
+            
+            &copy; 2024  All Rights Reserved
+            <div class="text-secondary">
+                Made with
+                <span class="text-danger">
+                    &#10084;
+                </span>
+                and
+                <a href="https://github.com/gurusabarish/hugo-profile" target="_blank"
+                    title="Designed and developed by gurusabarish">
+                    Hugo Profile
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</footer><script src="/bootstrap-5/js/bootstrap.bundle.min.js"></script>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
+</script>
+
+
+    <script src="/js/search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+  <section id="search-content" class="py-2">
+    <div class="container" id="search-results"></div>
+  </section>
+</body>
+
+</html>
