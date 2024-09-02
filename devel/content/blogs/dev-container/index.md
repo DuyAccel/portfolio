@@ -2,7 +2,7 @@
 title: 'Custom devcontainer'
 date: 2024-08-31T08:43:34Z
 draft: false
-author: Duy Nguyen
+author: Nguyen Chau Hieu Duy
 tags: ['Docker', 'Neovim']
 image: /blogs/dev-container/container.png
 description: Make your dev environment more interesting.

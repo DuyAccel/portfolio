@@ -6,14 +6,14 @@
     <description>Recent content in Blogs on Duy Nguyen</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 31 Aug 2024 13:59:07 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 01 Sep 2024 13:59:07 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/blogs/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Website With CD</title>
+      <title>Website With Continuous Deployment</title>
       <link>http://localhost:1313/blogs/website-with-cd/</link>
-      <pubDate>Sat, 31 Aug 2024 13:59:07 +0000</pubDate>
+      <pubDate>Sun, 01 Sep 2024 13:59:07 +0000</pubDate>
       <guid>http://localhost:1313/blogs/website-with-cd/</guid>
-      <description></description>
+      <description>No more &amp;ldquo;It works on my machine&amp;rdquo;. In this blog, I will show you how I created and published a website on AWS EC2 with continuous deployment pipeline for free! Any change you make in source code will be automated compile, build and deploy within seconds once you push code into your github repository. My portfolio a.k.a this website is the result.&#xA;Technologies and the reason I choose them Docker - for containerization.</description>
     </item>
     <item>
       <title>Custom devcontainer</title>

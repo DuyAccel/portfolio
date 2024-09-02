@@ -155,8 +155,11 @@ params:
             url: "https://github.com/DuyAccel/FzXGB-fakenews.git"
 
       - title: Portfolio website
-        content: A website being hosted on ASW EC2 instance. I use Nginx as reverse proxy and Let's Encrypt for SSL certificate. Every module is running inside docker containers.
+        content: A website being hosted on ASW EC2 instance. I use Nginx as reverse proxy and Let's Encrypt for SSL certificate. 
         image: /images/projects/web.png
+        links:
+          - icon: fab fa-github
+            url: "https://github.com/DuyAccel/portfolio.git"
 
   contact:
     enable: true
