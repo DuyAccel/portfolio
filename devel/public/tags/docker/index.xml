@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blogs on Duy Nguyen</title>
-    <link>http://localhost:1313/blogs/</link>
-    <description>Recent content in Blogs on Duy Nguyen</description>
+    <title>Docker on Duy Nguyen</title>
+    <link>http://localhost:1313/tags/docker/</link>
+    <description>Recent content in Docker on Duy Nguyen</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 31 Aug 2024 13:59:07 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/blogs/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Website With CD</title>
-      <link>http://localhost:1313/blogs/website-with-cd/</link>
-      <pubDate>Sat, 31 Aug 2024 13:59:07 +0000</pubDate>
-      <guid>http://localhost:1313/blogs/website-with-cd/</guid>
-      <description></description>
-    </item>
+    <lastBuildDate>Sat, 31 Aug 2024 08:43:34 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/docker/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Custom devcontainer</title>
       <link>http://localhost:1313/blogs/dev-container/</link>

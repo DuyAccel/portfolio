@@ -68,7 +68,7 @@ params:
       enable: true
       name: "CV (not available yet)"
       url: "#"
-      download: true
+      download: false
       newPage: false
 
     socialLinks:
