@@ -115,14 +115,12 @@ params:
     enable: true
     index: false
     items:
-      - title: "Bachelor of Engineering"
-        subtitle: "Computer Science"
-
+      - title: "Engineer of Information Technology"
         school:
           name: "Saigon University"
           url: "https://www.sgu.edu.vn/"
         date: "Oct 2020 - Sep 2024 (expected)"
-        GPA: "3.49 out of 4.0"
+        GPA: "3.51 out of 4.0"
         content: |
           An Engineer's program in Information Technology - specialization: Computer Science.
 
@@ -155,8 +153,14 @@ params:
             url: "https://github.com/DuyAccel/FzXGB-fakenews.git"
 
       - title: Portfolio website
-        content: A website being hosted on ASW EC2 instance. I use Nginx as reverse proxy and Let's Encrypt for SSL certificate. 
+        content: A website being hosted on AWS EC2 instance. I use Github Action and Docker Container to execute a Continuous Deployment pipline.
         image: /images/projects/web.png
+        featured:
+          name: Details
+          link: 'https://website.duy.io.vn/blogs/website-with-cd/'
+        badges:
+          - "CI/CD"
+          - "Containerization"
         links:
           - icon: fab fa-github
             url: "https://github.com/DuyAccel/portfolio.git"
