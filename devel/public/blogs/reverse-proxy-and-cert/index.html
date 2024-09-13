@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html>
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta http-equiv="Accept-CH" content="DPR, Viewport-Width, Width">
+<link rel="icon" href=/favicon.ico type="image/gif">
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Alata&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Alata&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      media="print" onload="this.media='all'" />
+<noscript>
+  <link
+          href="https://fonts.googleapis.com/css2?family=Alata&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+          rel="stylesheet">
+</noscript>
+
+
+<link rel="stylesheet" href="/css/font.css" media="all">
+
+
+
+  
+
+
+<meta property="og:url" content="http://localhost:1313/blogs/reverse-proxy-and-cert/">
+  <meta property="og:site_name" content="Duy Nguyen">
+  <meta property="og:title" content="Reverse proxy with SSL/TLS configuration">
+  <meta property="og:description" content="In my previous blog, I introduced basic steps to create a continuous deployment for portfolio website on EC2 instance. This time, I will focus on configurating a VPS to improve security and scalability on my my webservices.
+In this project, Nginx will serve as a gateway to multiple services, providing a unified access point while keeping individual ports hidden from direct exposure to the public internet. This setup not only improves security but also simplifies the management of different services by routing traffic efficiently.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blogs">
+    <meta property="article:published_time" content="2024-09-12T06:17:09+00:00">
+    <meta property="article:modified_time" content="2024-09-12T06:17:09+00:00">
+    <meta property="article:tag" content="Nginx">
+    <meta property="article:tag" content="Reverse Proxy">
+    <meta property="article:tag" content="SSL/TLS">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Reverse proxy with SSL/TLS configuration">
+  <meta name="twitter:description" content="In my previous blog, I introduced basic steps to create a continuous deployment for portfolio website on EC2 instance. This time, I will focus on configurating a VPS to improve security and scalability on my my webservices.
+In this project, Nginx will serve as a gateway to multiple services, providing a unified access point while keeping individual ports hidden from direct exposure to the public internet. This setup not only improves security but also simplifies the management of different services by routing traffic efficiently.">
+
+
+<link rel="stylesheet" href="/bootstrap-5/css/bootstrap.min.css" media="all"><link rel="stylesheet" href="/css/header.css" media="all">
+<link rel="stylesheet" href="/css/footer.css" media="all">
+
+
+<link rel="stylesheet" href="/css/theme.css" media="all">
+
+<style>
+    :root {
+        --text-color: #343a40;
+        --text-secondary-color: #6c757d;
+        --text-link-color: #007bff;
+        --background-color: #eaedf0;
+        --secondary-background-color: #64ffda1a;
+        --primary-color: #007bff;
+        --secondary-color: #f8f9fa;
+
+         
+        --text-color-dark: #e4e6eb;
+        --text-secondary-color-dark: #b0b3b8;
+        --text-link-color-dark: #ffffff;
+        --background-color-dark: #18191a;
+        --secondary-background-color-dark: #212529;
+        --primary-color-dark: #ffffff;
+        --secondary-color-dark: #212529;
+    }
+    body {
+        font-size: 1rem;
+        font-weight: 350;
+        line-height: 1.5;
+        text-align: left;
+    }
+
+    html {
+        background-color: var(--background-color) !important;
+    }
+
+    body::-webkit-scrollbar {
+        height: 0px;
+        width: 8px;
+        background-color: var(--background-color);
+    }
+
+    ::-webkit-scrollbar-track {
+        border-radius: 1rem;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 1rem;
+        background: #b0b0b0;
+        outline: 1px solid var(--background-color);
+    }
+
+    #search-content::-webkit-scrollbar {
+        width: .5em;
+        height: .1em;
+        background-color: var(--background-color);
+    }
+</style>
+
+
+
+<meta name="description" content="">
+<link rel="stylesheet" href="/css/single.css">
+
+
+<script defer src="/fontawesome-6/all-6.4.2.js"></script>
+
+
+  
+  
+
+  <title>
+Reverse proxy with SSL/TLS configuration | Duy Nguyen
+
+  </title>
+</head>
+
+<body class="light">
+  
+  
+<script>
+    let localStorageValue = localStorage.getItem("pref-theme");
+    let mediaQuery = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    switch (localStorageValue) {
+        case "dark":
+            document.body.classList.add('dark');
+            break;
+        case "light":
+            document.body.classList.remove('dark');
+            break;
+        default:
+            if (mediaQuery) {
+                document.body.classList.add('dark');
+            }
+            break;
+    }
+</script>
+
+
+
+
+<script>
+    var prevScrollPos = window.pageYOffset;
+    window.addEventListener("scroll", function showHeaderOnScroll() {
+        let profileHeaderElem = document.getElementById("profileHeader");
+        let currentScrollPos = window.pageYOffset;
+        let resetHeaderStyle = false;
+        let showNavBarOnScrollUp =  true ;
+        let showNavBar = showNavBarOnScrollUp ? prevScrollPos > currentScrollPos : currentScrollPos > 0;
+        if (showNavBar) {
+            profileHeaderElem.classList.add("showHeaderOnTop");
+        } else {
+            resetHeaderStyle = true;
+        }
+        if(currentScrollPos === 0) {
+            resetHeaderStyle = true;
+        }
+        if(resetHeaderStyle) {
+            profileHeaderElem.classList.remove("showHeaderOnTop");
+        }
+        prevScrollPos = currentScrollPos;
+    });
+</script>
+
+
+
+<header id="profileHeader">
+    <nav class="pt-3 navbar navbar-expand-lg animate">
+        <div class="container-fluid mx-xs-2 mx-sm-5 mx-md-5 mx-lg-5">
+            
+            <a class="navbar-brand primary-font text-wrap" href="/">
+                
+                <img src="/favicon.ico" width="30" height="30"
+                    class="d-inline-block align-top">
+                Duy&#39;s Portfolio
+                
+            </a>
+
+            
+                <div>
+                    <input id="search" autocomplete="off" class="form-control mr-sm-2 d-none d-md-block" placeholder='Ctrl &#43; k to Search...'
+                        aria-label="Search" oninput="searchOnChange(event)">
+                </div>
+            
+
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <svg aria-hidden="true" height="24" viewBox="0 0 16 16" version="1.1" width="24" data-view-component="true">
+                    <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z"></path>
+                </svg>
+            </button>
+
+            
+            <div class="collapse navbar-collapse text-wrap primary-font" id="navbarContent">
+                <ul class="navbar-nav ms-auto text-center">
+                    
+                        <li class="nav-item navbar-text d-block d-md-none">
+                            <div class="nav-link">
+                                <input id="search" autocomplete="off" class="form-control mr-sm-2" placeholder='Ctrl &#43; k to Search...' aria-label="Search" oninput="searchOnChange(event)">
+                            </div>
+                        </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#about" aria-label="about">
+                            About me
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#experience"
+                            aria-label="experience">
+                            Experience
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#education"
+                            aria-label="education">
+                            Education
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#projects"
+                            aria-label="projects">
+                            Projects
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#achievements"
+                            aria-label="achievements">
+                            Achievements
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#contact"
+                            aria-label="contact">
+                            Contact
+                        </a>
+                    </li>
+                    
+
+                    
+
+                    
+                    
+                    
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/blogs" title="Blog posts">
+                            
+                            Blog
+                        </a>
+                    </li>
+                    
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        
+                        <div class="text-center">
+                            <button id="theme-toggle">
+                                <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                                </svg>
+                                <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="5"></circle>
+                                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </li>
+                    
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+</header>
+<div id="content">
+<section id="single">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-12 col-md-12 col-lg-9">
+        <div class="pr-lg-4">
+          <div class="title mb-5">
+            <h1 class="text-center mb-4">Reverse proxy with SSL/TLS configuration</h1>
+            <div class="text-center">
+              
+                Nguyen Chau Hieu Duy
+                <small>|</small>
+              
+              Sep 12, 2024
+
+              
+              <span id="readingTime">
+                min read
+              </span>
+              
+            </div>
+          </div>
+          
+          <div class="featured-image">
+            <img class="img-fluid mx-auto d-block" src="/blogs/reverse-proxy-and-cert/nginx-reverse-proxy.png" alt="Reverse proxy with SSL/TLS configuration">
+          </div>
+          
+          <article class="page-content  p-2">
+          <p>In my previous <a href="https://website.duy.io.vn/blogs/website-with-cd/">blog</a>, I introduced basic steps to create a continuous deployment for portfolio website on EC2 instance. This time, I will focus on configurating a VPS to improve security and scalability on my my webservices.</p>
+<p>In this project, Nginx will serve as a gateway to multiple services, providing a unified access point while keeping individual ports hidden from direct exposure to the public internet. This setup not only improves security but also simplifies the management of different services by routing traffic efficiently.</p>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Your domain name.</li>
+</ul>
+<p>You need a valid domain name to config reverse proxy and obtain SSL certificate. In term of scalability, we can use sub-domains to access different services.</p>
+<ul>
+<li>A linux VPS with docker enginee installed.</li>
+</ul>
+<p>I&rsquo;m using AWS EC2 instance for VPS as it provide 12 months free tier with almost 24/24 up time VPS (EC2). There are many other choices like Oracle, Azure, Google Cloud, etc,&hellip; with free trial VPS service.</p>
+<h2 id="system-architecture">System architecture</h2>
+<p><img src="/blogs/reverse-proxy-and-cert/arch.png" alt=""></p>
+<h3 id="explanation">Explanation</h3>
+<p><code>portfolio</code> and <code>jenkins</code> container will run on their isolated private networks. <code>Nginx (reverse-proxy)</code> is a bridge which has ability to connect and redirect request to them base on domain name. There are many advantages of this approach. Firstly, we do not need to expose service ports to public (more secure). Secondly, we can point many sub-domains to only one ip address to access multiple services on a same host. We also able to config SSL/TLS to encrypt transfer data and so on&hellip;
+Take a look at our folder tree:</p>
+<pre tabindex="0"><code>my-server/
+├── docker-compose.yml          # docker compose config
+├── jenkins/                    # jenkins service data
+├── nginx/                       
+│   ├── conf.d/                  
+│   │   ├── jenkins.conf        # nginx configuration for jenkins service
+│   │   └── portfolio.conf      # nginx configuration for portfolio service 
+│   ├── dockerfile              # dockerfile for reverse-proxy config
+│   └── init_ssl.sh             # script to execute certificate config
+├── schedule.txt                # cronjob schedule to renew certificates
+└── ssl.log                     # log file of renew certificates job
+</code></pre><h3 id="docker-compose">Docker compose</h3>
+<p>In other to  deploy this system, we will organize those containers with docker compose file.</p>
+<pre tabindex="0"><code>services:
+  portfolio:
+    image: duyaccel/personal-web:latest
+    container_name: &#39;portfolio&#39;
+    restart: unless-stopped
+    networks:
+      - portfolio-net
+
+  jenkins:
+    image: jenkins/jenkins:2.462.2-jdk17
+    container_name: &#39;jenkins&#39;
+    volumes:
+      - ./jenkins:/var/jenkins_home
+    restart: unless-stopped
+    networks:
+      - jenkins-net
+
+  reverse-proxy:
+    build:
+      context: ./nginx
+    container_name: &#39;reverse-proxy&#39;
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - &#39;80:80&#39;
+      - &#39;443:443&#39;
+    restart: unless-stopped
+    networks:
+      - portfolio-net
+      - jenkins-net
+    depends_on:
+      - portfolio
+      - jenkins
+
+networks:
+  portfolio-net:
+    name: portfolio-network
+    driver: bridge
+  
+  jenkins-net:
+    name: jenkins-network
+    driver: bridge
+</code></pre><h2 id="reverse-proxy-configuration">Reverse proxy configuration</h2>
+<h3 id="config-services">Config services</h3>
+<p>There are some differences between Nginx package in most linux system and Nginx docker image. Docker image version will not have <code>/site-available</code> and <code>/site-enable</code> folders. We need to put configuration files inside <code>/etc/nginx/conf.d</code> folders. This is a example of <code>portfolio.conf</code> (similar to <code>jenkins.conf</code>) which will listen on port 80 (http) ipv4 address. In this case, if user try to access <em>duy.io.vn</em> or <em>website.duy.io.vn</em>, those request will reach <strong>portfolio service</strong>.</p>
+<pre tabindex="0"><code>server {
+  listen 80;
+  server_name duy.io.vn website.duy.io.vn; 
+
+  location / {
+    proxy_pass                          http://portfolio:80;
+    proxy_redirect                      off;
+    proxy_set_header  Host              $http_host;
+    proxy_set_header  X-Real-IP         $remote_addr;
+    proxy_set_header  X-Forwarded-For   $proxy_add_x_forwarded_for;
+    proxy_set_header  X-Forwarded-Proto $scheme;
+    proxy_read_timeout                  900;
+  }
+}
+</code></pre><p>If you follow my <code>docker-compose.yml</code> configuration file, Nginx will able to reach portfolio services at <code>http://portfolio:80</code> which we are routing to.</p>
+<p>Reverse proxy dockerfile is not complicated at all. We only need Nginx load the config files and script to install SSL/TLS certificate. This is how it looks like.</p>
+<pre tabindex="0"><code>FROM nginx:1.27.1-alpine3.20
+
+COPY ./conf.d /etc/nginx/conf.d
+
+COPY init_ssl.sh .
+</code></pre><p>You wonder where is <code>https</code> huh? I&rsquo;ll show you soon.</p>
+<h3 id="obtain-certificates">Obtain certificates</h3>
+<p><img src="/blogs/reverse-proxy-and-cert/le-logo.png" alt=""></p>
+<p><strong>Let&rsquo;s encrypt</strong> is a nonprofit Certificate Authority providing TLS certificates. They provide <em>Certbot ACME client</em> to automate certificate issuance and installation with no downtime. In case of web service using Nginx, Certbot provide <em>nginx plugin</em> which make the configuration steps more easier.</p>
+<p>What&rsquo;s inside those SSL scripts and why I do not execute it in building image process? Certbot (Let&rsquo;s encrypt) will verify our connection between user request and website through domain names. Therefore, I want to make sure that all services is running and connected before the verification process start. We will execute <code>init_SSL.sh</code> script inside reverse-proxy manually with <strong>docker exec</strong> command. This is content of that file:</p>
+<pre tabindex="0"><code>#!/bin/sh
+
+apk add certbot-nginx
+
+certbot \
+        --nginx -m nguyenchauhieuduy@outlook.com \
+        --agree-tos \
+        --no-eff-email \
+        -d duy.io.vn \
+        -d website.duy.io.vn \
+        -d cicd.duy.io.vn
+</code></pre><h2 id="deployment">Deployment</h2>
+<h3 id="step-1-initialize-services">Step 1: Initialize services</h3>
+<p>Let&rsquo;s push our configuration files to the host. There are many command lines to do this on Linux and <code>rsync</code> is one of them. You should install and execute <code>rsync</code> command similar to this one:</p>
+<pre tabindex="0"><code>rsync -av -e &#34;ssh -i $your-ssh-key-location&#34; ./server/ username@hostname:/home/username/my-server
+</code></pre><p>Then, SSH into your Host and execute docker compose file to init those services</p>
+<pre tabindex="0"><code>ssh -i $your-ssh-key-location username@hostname
+cd my-server
+docker compose up -d --build
+</code></pre><h3 id="step-2-get-certificates-and-schedule-to-renew-them">Step 2: Get certificates and schedule to renew them</h3>
+<p>Execute <code>init_SSL.ssh</code> inside nginx image via docker command:</p>
+<pre tabindex="0"><code>docker exec reverse-proxy /init_SSL.sh
+</code></pre><p>Every thing should run smoothly and you can access your website from browsers without security warning. Let&rsquo;s encrypt certificates will expire after 90 days. They suggest us to run <code>renew</code> command every 12 hour to check and renew it with certbot client. I will use <code>cron</code> to schedule this process and print log output to <em>SSL.log</em> file.</p>
+<pre tabindex="0"><code># content of schedule.txt
+0 0,12 * * * /usr/bin/docker exec reverse-proxy certbot renew &gt;&gt; /home/ubuntu/server/ssl.log
+
+# run this command to start cronjob write inside schedule.txt
+crontab schedule.txt
+</code></pre><h3 id="shortcut-enhanced">Shortcut (Enhanced)</h3>
+<p>A better way is write all those stuff inside a script file and execute them after push configuration file to host server. We will not need to copy setup script Nginx container.</p>
+<pre tabindex="0"><code>#!/bin/sh
+cd my-server &amp;&amp;
+
+docker compose up -d --build &amp;&amp;
+
+docker exec rerverse-proxy sh -c &#39;
+  apk add certbot-nginx
+  certbot \
+          --nginx -m nguyenchauhieuduy@outlook.com \
+          --agree-tos \
+          --no-eff-email \
+          -d duy.io.vn \
+          -d website.duy.io.vn \
+          -d cicd.duy.io.vn
+&#39;
+echo &#39;
+0 0,12 * * * docker exec reverse-proxy certbot renew &gt;&gt; /home/ubuntu/my-server/ssl.log
+&#39; &gt; renew_ssl
+
+crontab renew_ssl
+</code></pre><p>You can find my this configuration at <a href="">my github repository</a></p>
+
+          </article>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-3">
+        <div id="stickySideBar" class="sticky-sidebar">
+          
+          <aside class="toc">
+              <h5>
+                Table Of Contents
+              </h5>
+              <div class="toc-content">
+                <nav id="TableOfContents">
+  <ul>
+    <li><a href="#requirements">Requirements</a></li>
+    <li><a href="#system-architecture">System architecture</a>
+      <ul>
+        <li><a href="#explanation">Explanation</a></li>
+        <li><a href="#docker-compose">Docker compose</a></li>
+      </ul>
+    </li>
+    <li><a href="#reverse-proxy-configuration">Reverse proxy configuration</a>
+      <ul>
+        <li><a href="#config-services">Config services</a></li>
+        <li><a href="#obtain-certificates">Obtain certificates</a></li>
+      </ul>
+    </li>
+    <li><a href="#deployment">Deployment</a>
+      <ul>
+        <li><a href="#step-1-initialize-services">Step 1: Initialize services</a></li>
+        <li><a href="#step-2-get-certificates-and-schedule-to-renew-them">Step 2: Get certificates and schedule to renew them</a></li>
+        <li><a href="#shortcut-enhanced">Shortcut (Enhanced)</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+              </div>
+          </aside>
+          
+
+          
+          <aside class="tags">
+            <h5>Tags</h5>
+            <ul class="tags-ul list-unstyled list-inline">
+              
+              <li class="list-inline-item"><a href="http://localhost:1313/tags/nginx"
+                target="_blank"
+              >Nginx</a></li>
+              
+              <li class="list-inline-item"><a href="http://localhost:1313/tags/reverse-proxy"
+                target="_blank"
+              >Reverse proxy</a></li>
+              
+              <li class="list-inline-item"><a href="http://localhost:1313/tags/ssl/tls"
+                target="_blank"
+              >SSL/TLS</a></li>
+              
+            </ul>
+          </aside>
+          
+
+          
+          <aside class="social">
+            <h5>Social</h5>
+            <div class="social-content">
+              <ul class="list-inline">
+                <li class="list-inline-item text-center">
+                  <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fblogs%2freverse-proxy-and-cert%2f">
+                    <i class="fab fa-linkedin"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item text-center">
+                  <a target="_blank" href="https://twitter.com/share?text=Reverse%20proxy%20with%20SSL%2fTLS%20configuration&url=http%3a%2f%2flocalhost%3a1313%2fblogs%2freverse-proxy-and-cert%2f">
+                    <i class="fab fa-twitter"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item text-center">
+                  <a target="_blank" href="https://api.whatsapp.com/send?text=Reverse%20proxy%20with%20SSL%2fTLS%20configuration: http%3a%2f%2flocalhost%3a1313%2fblogs%2freverse-proxy-and-cert%2f">
+                    <i class="fab fa-whatsapp"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item text-center">
+                  <a target="_blank" href='mailto:?subject=Reverse%20proxy%20with%20SSL%2fTLS%20configuration&amp;body=Check%20out%20this%20site http%3a%2f%2flocalhost%3a1313%2fblogs%2freverse-proxy-and-cert%2f'>
+                    <i class="fa fa-envelope"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </aside>
+          
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-9 p-4">
+        
+      </div>
+    </div>
+  </div>
+  <button class="p-2 px-3" onclick="topFunction()" id="topScroll">
+    <i class="fas fa-angle-up"></i>
+  </button>
+</section>
+
+
+<div class="progress">
+  <div id="scroll-progress-bar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<Script src="/js/scrollProgressBar.js"></script>
+
+
+<script>
+  var topScroll = document.getElementById("topScroll");
+  window.onscroll = function() {scrollFunction()};
+
+  function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      topScroll.style.display = "block";
+    } else {
+      topScroll.style.display = "none";
+    }
+  }
+
+  function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+
+  
+  let stickySideBarElem = document.getElementById("stickySideBar");
+  let stickyNavBar =  true ;
+  if(stickyNavBar) {
+    let headerElem = document.getElementById("profileHeader");
+    let headerHeight = headerElem.offsetHeight + 15;
+    stickySideBarElem.style.top = headerHeight + "px";
+  } else {
+    stickySideBarElem.style.top = "50px";
+  }
+</script>
+
+
+<script src="/js/readingTime.js"></script>
+
+
+
+  </div><footer>
+    
+ 
+
+<div class="text-center pt-2">
+    
+
+    
+
+    
+
+    
+
+    
+</div><div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-4 text-center">
+            
+                <div class="pb-2">
+                    <a href="http://localhost:1313/" title="Duy Nguyen">
+                        <img alt="Footer logo" src="/favicon.ico"
+                            height="40px" width="40px">
+                    </a>
+                </div>
+            
+            &copy; 2024  All Rights Reserved
+            <div class="text-secondary">
+                Made with
+                <span class="text-danger">
+                    &#10084;
+                </span>
+                and
+                <a href="https://github.com/gurusabarish/hugo-profile" target="_blank"
+                    title="Designed and developed by gurusabarish">
+                    Hugo Profile
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</footer><script src="/bootstrap-5/js/bootstrap.bundle.min.js"></script>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
+</script>
+
+
+    <script src="/js/search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+  <section id="search-content" class="py-2">
+    <div class="container" id="search-results"></div>
+  </section>
+</body>
+
+</html>
