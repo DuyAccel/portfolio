@@ -64,12 +64,12 @@ params:
       -Lovely, by Billie Eilish and Khalid-
     image: /images/hero.jpg
     
-    button:
-      enable: true
-      name: "CV (not available yet)"
-      url: "#"
-      download: false
-      newPage: false
+    #     button:
+    #       enable: true
+    #       name: "CV (not available yet)"
+    #       url: "#"
+    #       download: false
+    #       newPage: false
 
     socialLinks:
       fontAwesomeIcons:
@@ -85,7 +85,7 @@ params:
     title: "About me"
     image: /images/me-1.jpg
     content: |-
-      I am a senior student at Saigon University, who have completed all coursework for Bachelor of engineering in Information Technology, specializing Computer Science. I'm currently waiting my official graduation (expected in this September).  
+      I am a senior student at Saigon University, who have completed all coursework for an engineer degree in Information Technology, specializing Computer Science. I'm currently waiting my official graduation (expected in this October-2024).  
 
       I am excited to leverage my expertise and passion for technology to make a meaningful impact in my future career.
     skills:
@@ -102,7 +102,7 @@ params:
     enable: true
     items:
       - job: "Internship DataOps"
-        company: "Cty TNHH 2M SOLUTIONS"
+        company: "2M SOLUTIONS CO., LTD"
         date: "Jan 2024 - Aug 2024"
         content: |
           I was amazed by how a real data product is created. During this time, I have gained a lot of knowledge about Docker and Jenkins. I also started using some common services of AWS to host and testing my project.
@@ -119,38 +119,44 @@ params:
         school:
           name: "Saigon University"
           url: "https://www.sgu.edu.vn/"
-        date: "Oct 2020 - Sep 2024 (expected)"
+        date: "Oct 2020 - Oct 2024 (expected)"
         GPA: "3.51 out of 4.0"
         content: |
-          An Engineer's program in Information Technology - specialization: Computer Science.
+          An 4.5-year Engineering program in Information Technology - specialization: Computer Science.
 
+          I completed it within 4 years and was ready for my first-year experience.
 
   achievements:
     enable: true
     items:
       - title: "TOEIC score: 850"
-        content: "Reading documents and papers in English is not that hard! (Deeply understand it is hard)"
+        content: "Not too bad, right?" 
         image: /images/toeic.jpg
-      - title: "Green summer campaign 2020"
+      - title: "RTIS 2024"
+        content: "Accepted paper in Sixth International Conference on Real-Time Intelligent Systems 2024."
+        image: /images/RTIS.png
+      - title: "Green summer campaign 2021"
         content: "Being commended as an excellent volunteer at University level."
         image: /images/mhx-1.png
 
   projects:
     enable: true
     items:
-      - title: Multi-class fakenews detection model
-        content: A machine learning model using fuzzy c-means base algorithm for feature extraction combine with multiple XGBoost binary models.
-        image: /images/projects/fn-xgb.png
+      - title: Sevice management
+        content: A scalable and secure system with Nginx reverse proxy + certificates from let's encrypt.
+        image: /images/projects/nginx-reverse-proxy.png
         featured:
-          name: Demo 
-          link: "https://duyaccel-fzxgboost.hf.space"
+          name: Details
+          link: 'https://website.duy.io.vn/blogs/reverse-proxy-and-cert/'
         badges:
-          - "XGBoost"
-          - "Fuzzy c-means"
+          - "Nginx"
+          - "Containerization"
+          - "SSL/TLS"
 
         links:
           - icon: fab fa-github
-            url: "https://github.com/DuyAccel/FzXGB-fakenews.git"
+            url: "https://github.com/DuyAccel/system.git"
+
 
       - title: Portfolio website
         content: A website being hosted on AWS EC2 instance. I use Github Action and Docker Container to execute a Continuous Deployment pipline.
@@ -164,6 +170,21 @@ params:
         links:
           - icon: fab fa-github
             url: "https://github.com/DuyAccel/portfolio.git"
+
+      - title: Multi-class fakenews detection model
+        content: 'A machine learning model using fuzzy c-means base algorithm for feature extraction combine with multiple XGBoost binary models. This research was accepted in RTIS 2024 : Sixth International Conference on Real-Time Intelligent Systems.'
+        image: /images/projects/fn-xgb.png
+        featured:
+          name: Demo 
+          link: "https://duyaccel-fzxgboost.hf.space"
+        badges:
+          - "XGBoost"
+          - "Fuzzy c-means"
+
+        links:
+          - icon: fab fa-github
+            url: "https://github.com/DuyAccel/FzXGB-fakenews.git"
+
 
   contact:
     enable: true
