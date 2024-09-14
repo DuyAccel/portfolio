@@ -52,8 +52,9 @@ jobs:
         run: |
           echo "$SSH_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${SV_USER}@${SERVER} '
-            cd server 
-            docker compose down --rmi all portfolio
+            cd my-server 
+            docker compose down portfolio
+            docker image prune -af
             docker compose up -d --build portfolio
           '
 
