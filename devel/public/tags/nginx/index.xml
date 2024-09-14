@@ -13,7 +13,7 @@
       <link>http://localhost:1313/blogs/reverse-proxy-and-cert/</link>
       <pubDate>Thu, 12 Sep 2024 06:17:09 +0000</pubDate>
       <guid>http://localhost:1313/blogs/reverse-proxy-and-cert/</guid>
-      <description>In previous blogs, I introduced basic steps to create a continuous deployment for portfolio website on EC2 instance. This time, I will focus on configurating a VPS to improve security and scalability on my my webservices.&#xA;In this project, Nginx will serve as a gateway to multiple services, providing a unified access point while keeping individual ports hidden from direct exposure to the public internet. This setup not only improves security but also simplifies the management of different services by routing traffic efficiently.</description>
+      <description>In my previous blog, I introduced basic steps to create a continuous deployment for portfolio website on EC2 instance. This time, I will focus on configurating a VPS to improve security and scalability on my my webservices.&#xA;In this project, Nginx will serve as a gateway to multiple services, providing a unified access point while keeping individual ports hidden from direct exposure to the public internet. This setup not only improves security but also simplifies the management of different services by routing traffic efficiently.</description>
     </item>
   </channel>
 </rss>

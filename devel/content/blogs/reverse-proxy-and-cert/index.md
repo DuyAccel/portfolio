@@ -36,7 +36,7 @@ my-server/
 │   │   ├── jenkins.conf        # nginx configuration for jenkins service
 │   │   └── portfolio.conf      # nginx configuration for portfolio service 
 │   ├── dockerfile              # dockerfile for reverse-proxy config
-│   └── init_ssl.sh             # script to execute certificate config
+│   └── init_ssl.sh             # script to execute certificate config (make this file executable a.k.a chmod +x)
 ├── schedule.txt                # cronjob schedule to renew certificates
 └── ssl.log                     # log file of renew certificates job
 ```
@@ -147,7 +147,7 @@ certbot \
 ### Step 1: Initialize services
 Let's push our configuration files to the host. There are many command lines to do this on Linux and `rsync` is one of them. You should install and execute `rsync` command similar to this one:
 ```
-rsync -av -e "ssh -i $your-ssh-key-location" ./server/ username@hostname:/home/username/my-server
+rsync -av -e "ssh -i $your-ssh-key-location" . username@hostname:/home/username/my-server
 ```
 Then, SSH into your Host and execute docker compose file to init those services
 ```
@@ -174,7 +174,6 @@ crontab schedule.txt
 A better way is write all those stuff inside a script file and execute them after push configuration file to host server. We will not need to copy setup script Nginx container.
 ```
 #!/bin/sh
-cd my-server &&
 
 docker compose up -d --build &&
 
@@ -194,5 +193,19 @@ echo '
 
 crontab renew_ssl
 ```
-You can find my this configuration at [my github repository]() 
+This way, we can eleminate most setup files and the foler will be:
+```
+my-server/
+├── docker-compose.yml
+├── jenkins/
+├── nginx/
+│   ├── conf.d/
+│   │   ├── jenkins.conf
+│   │   └── portfolio.conf
+│   └── dockerfile
+└── setup.sh    # make this file executable
+```
+![](/blogs/reverse-proxy-and-cert/script-output.png)
+You can find my this configuration at [my github repository](https://github.com/DuyAccel/system) 
+
 

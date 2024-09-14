@@ -367,7 +367,7 @@ Take a look at our folder tree:</p>
 │   │   ├── jenkins.conf        # nginx configuration for jenkins service
 │   │   └── portfolio.conf      # nginx configuration for portfolio service 
 │   ├── dockerfile              # dockerfile for reverse-proxy config
-│   └── init_ssl.sh             # script to execute certificate config
+│   └── init_ssl.sh             # script to execute certificate config (make this file executable a.k.a chmod +x)
 ├── schedule.txt                # cronjob schedule to renew certificates
 └── ssl.log                     # log file of renew certificates job
 </code></pre><h3 id="docker-compose">Docker compose</h3>
@@ -457,7 +457,7 @@ certbot \
 </code></pre><h2 id="deployment">Deployment</h2>
 <h3 id="step-1-initialize-services">Step 1: Initialize services</h3>
 <p>Let&rsquo;s push our configuration files to the host. There are many command lines to do this on Linux and <code>rsync</code> is one of them. You should install and execute <code>rsync</code> command similar to this one:</p>
-<pre tabindex="0"><code>rsync -av -e &#34;ssh -i $your-ssh-key-location&#34; ./server/ username@hostname:/home/username/my-server
+<pre tabindex="0"><code>rsync -av -e &#34;ssh -i $your-ssh-key-location&#34; . username@hostname:/home/username/my-server
 </code></pre><p>Then, SSH into your Host and execute docker compose file to init those services</p>
 <pre tabindex="0"><code>ssh -i $your-ssh-key-location username@hostname
 cd my-server
@@ -474,7 +474,6 @@ crontab schedule.txt
 </code></pre><h3 id="shortcut-enhanced">Shortcut (Enhanced)</h3>
 <p>A better way is write all those stuff inside a script file and execute them after push configuration file to host server. We will not need to copy setup script Nginx container.</p>
 <pre tabindex="0"><code>#!/bin/sh
-cd my-server &amp;&amp;
 
 docker compose up -d --build &amp;&amp;
 
@@ -493,7 +492,18 @@ echo &#39;
 &#39; &gt; renew_ssl
 
 crontab renew_ssl
-</code></pre><p>You can find my this configuration at <a href="">my github repository</a></p>
+</code></pre><p>This way, we can eleminate most setup files and the foler will be:</p>
+<pre tabindex="0"><code>my-server/
+├── docker-compose.yml
+├── jenkins/
+├── nginx/
+│   ├── conf.d/
+│   │   ├── jenkins.conf
+│   │   └── portfolio.conf
+│   └── dockerfile
+└── setup.sh    # make this file executable
+</code></pre><p><img src="/blogs/reverse-proxy-and-cert/script-output.png" alt="">
+You can find my this configuration at <a href="https://github.com/DuyAccel/system">my github repository</a></p>
 
           </article>
         </div>
