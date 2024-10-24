@@ -85,9 +85,8 @@ params:
     title: "About me"
     image: /images/me-1.jpg
     content: |-
-      I am a senior student at Saigon University, who have completed all coursework for an engineer degree in Information Technology, specializing Computer Science. I'm currently waiting my official graduation (expected in this October-2024).  
+      I am a senior student at Saigon University, who have completed all coursework for an engineer degree in Information Technology, specializing Computer Science. 
 
-      I am excited to leverage my expertise and passion for technology to make a meaningful impact in my future career.
     skills:
       enable: true
       title: "Here are some technologies that I am confident in:"
@@ -110,6 +109,11 @@ params:
           - Deploy first website on a server.
           - Config Jenkins nodes to auto pull code from github, build image, push image to dockerhub.
 
+      - job: "Fresher Unix Specialist/System admin"
+        company: "Saigon Thuong Tin Commercial Joint Stock Bank - Sacombank"
+        date: "Oct 2024 - Present"
+        content: |
+          I'm still learning.
 
   education:
     enable: true
@@ -119,12 +123,12 @@ params:
         school:
           name: "Saigon University"
           url: "https://www.sgu.edu.vn/"
-        date: "Oct 2020 - Oct 2024 (expected)"
+        date: "Oct 2020 - Oct 2024 (graduated)"
         GPA: "3.51 out of 4.0"
         content: |
           An 4.5-year Engineering program in Information Technology - specialization: Computer Science.
 
-          I completed it within 4 years and was ready for my first-year experience.
+          I completed it within 4 years.
 
   achievements:
     enable: true
@@ -146,9 +150,6 @@ params:
         content: A scalable and secure system with Nginx reverse proxy + certificates from let's encrypt.
         image: /images/projects/nginx-reverse-proxy.png
         featured:
-          name: Details
-          link: 'https://website.duy.io.vn/blogs/reverse-proxy-and-cert/'
-        badges:
           - "Nginx"
           - "Containerization"
           - "SSL/TLS"
